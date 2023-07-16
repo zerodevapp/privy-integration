@@ -1,0 +1,40 @@
+{
+  "name": "@zerodevapp/privy",
+  "version": "1.0.0-alpha.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "rainbowkit",
+    "connectkit",
+    "web3modal"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup src --dts --target es5",
+    "dev": "tsup src --watch --dts --target es5"
+  },
+  "peerDependencies": {
+    "@privy-io/react-auth": ">=1.30.1",
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zerodevapp/sdk": "4.0.2-alpha.9"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.3.69",
+    "@types/react": "^18.2.15",
+    "tsup": "6.4.0",
+    "typescript": "^5.0.4"
+  },
+  "types": "./dist/index.d.ts",
+  "description": ""
+}
