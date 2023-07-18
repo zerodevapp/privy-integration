@@ -1,5 +1,5 @@
 //@ts-expect-error
-import { usePrivy } from "@privy-io/react-auth"
+import { usePrivy, useWallets } from "@privy-io/react-auth"
 import { ECDSAProvider, getRPCProviderOwner } from "@zerodevapp/sdk"
 import { useEffect, useMemo, useState } from "react"
 import { useZeroDev } from "./ZeroDevContext"
@@ -9,27 +9,32 @@ export const useSmartPrivy = () => {
     const [address, setAddress] = useState<string>()
     const { projectId } = useZeroDev()
     const privy = usePrivy()
-  
+    const {wallets} = useWallets();
+    const embeddedWallet = wallets.find((wallet) => (wallet.walletClientType === 'privy'));
+
     useEffect(() => {
-      if (!provider && privy.user?.wallet?.address) {
-        if (privy.getEthereumProvider().address) {
-          ECDSAProvider.init({
-              projectId,
-              owner: getRPCProviderOwner(privy.getEthereumProvider()),
-              opts: {
-                paymasterConfig: {
-                  policy: 'VERIFYING_PAYMASTER'
-                }
-              }
-          }).then(provider => {
-              setProvider(provider)
-              //@ts-expect-error
-              provider.getAddress().then(setAddress)
-          })
-        }
+      const initializeZeroDev = async () => {
+        if (!wallets.length) throw new Error('Cannot initialize smart contract wallet without an EOA connected.');
+        // Use embedded wallet if the user has one, otherwise external wallet
+        const provider = await (embeddedWallet || wallets[0]).getEthereumProvider();
+        ECDSAProvider.init({
+          projectId,
+          owner: getRPCProviderOwner(provider),
+          opts: {
+            paymasterConfig: {
+              policy: 'VERIFYING_PAYMASTER'
+            }
+          }
+        }).then(async (provider) => {
+          setProvider(provider);
+          const address = await provider.getAddress();
+          setAddress(address);
+        })
       }
+
+      if (!provider && wallets.length) initializeZeroDev();
     }, [provider, privy, projectId])
-  
+
     return useMemo(() => {
       if (!provider || !address) return privy
       return {
@@ -43,9 +48,9 @@ export const useSmartPrivy = () => {
         },
         //@ts-expect-error
         sendTransaction: provider.sendTransaction.bind(provider)
-  
+
       }
-  
+
     }, [provider, address, privy])
-  
+
   }
