@@ -1,4 +1,3 @@
-//@ts-expect-error
 import { usePrivy, useWallets } from "@privy-io/react-auth"
 import { ECDSAProvider, getRPCProviderOwner } from "@zerodevapp/sdk"
 import { useEffect, useMemo, useState } from "react"
@@ -9,8 +8,8 @@ export const useSmartPrivy = () => {
     const [address, setAddress] = useState<string>()
     const { projectId } = useZeroDev()
     const privy = usePrivy()
-    const {wallets} = useWallets();
-    const embeddedWallet = wallets.find((wallet) => (wallet.walletClientType === 'privy'));
+    const { wallets } = useWallets();
+    const embeddedWallet = useMemo(() => wallets.find((wallet) => (wallet.walletClientType === 'privy')), [wallets]);
 
     useEffect(() => {
       const initializeZeroDev = async () => {
@@ -27,28 +26,31 @@ export const useSmartPrivy = () => {
           }
         }).then(async (provider) => {
           setProvider(provider);
-          const address = await provider.getAddress();
-          setAddress(address);
+          //@ts-expect-error
+          setAddress(await provider.getAddress());
         })
       }
-
       if (!provider && wallets.length) initializeZeroDev();
     }, [provider, privy, projectId])
 
     return useMemo(() => {
-      if (!provider || !address) return privy
+      const zeroDevReady = !!provider && !!address
       return {
         ...privy,
         user: {
           ...privy.user,
-          wallet: privy.user?.wallet ? {
-            ...privy.user.wallet,
-            address
-          } : undefined
+          wallet: privy.user?.wallet ? { ...privy.user.wallet, address } : undefined
         },
-        //@ts-expect-error
-        sendTransaction: provider.sendTransaction.bind(provider)
-
+        zeroDevReady,
+        sendTransaction: (...args: Parameters<typeof privy.sendTransaction>) => {
+          if (!zeroDevReady) throw new Error('Smart wallet is not ready yet.')
+          //@ts-expect-error
+          return provider.sendTransaction(...args)
+        },
+        getEthereumProvider: () => {
+          if (!zeroDevReady) throw new Error('Smart wallet is not ready yet.')
+          return provider
+        }
       }
 
     }, [provider, address, privy])
