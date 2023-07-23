@@ -1,28 +1,27 @@
 {
   "name": "@zerodevapp/privy",
-  "version": "1.0.0-alpha.4",
-  "main": "dist/index.js",
-  "files": [
-    "dist",
-    "rainbowkit",
-    "connectkit",
-    "web3modal"
-  ],
+  "version": "1.0.0-alpha.16",
+  "files": ["dist"],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/cjs/index.d.ts"
     }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup src --dts --target es5",
-    "dev": "tsup src --watch --dts --target es5"
+    "clean": "rm -rf ./dist",
+    "build:cjs": "tsc --project tsconfig.commonjs.json",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build": "yarn clean && yarn build:cjs && yarn build:esm"
   },
   "peerDependencies": {
     "@privy-io/react-auth": ">=1.30.1",
-    "react": ">=17",
-    "react-dom": ">=17"
+    "react": "^18"
   },
   "author": "",
   "license": "ISC",
@@ -36,6 +35,5 @@
     "tsup": "6.4.0",
     "typescript": "^5.0.4"
   },
-  "types": "./dist/index.d.ts",
   "description": ""
 }
