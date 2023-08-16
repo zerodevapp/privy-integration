@@ -1,2 +1,2 @@
-export { useSmartPrivy } from "./useSmartPrivy";
+export { usePrivySmartAccount } from "./usePrivySmartAccount";
 export { ZeroDevProvider, useZeroDev } from './ZeroDevContext'

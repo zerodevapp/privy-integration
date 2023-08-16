@@ -3,7 +3,7 @@ import { ECDSAProvider, getRPCProviderOwner } from "@zerodev/sdk"
 import { useEffect, useMemo, useState } from "react"
 import { useZeroDev } from "./ZeroDevContext"
 
-export const useSmartPrivy = () => {
+export const usePrivySmartAccount = () => {
     const [provider, setProvider] = useState<ECDSAProvider>()
     const [address, setAddress] = useState<string>()
     const { projectId } = useZeroDev()
