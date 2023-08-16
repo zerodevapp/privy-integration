@@ -1,5 +1,5 @@
 import { usePrivy, useWallets } from '@privy-io/react-auth';
-import { ECDSAProvider, getRPCProviderOwner } from "@zerodevapp/sdk"
+import { ECDSAProvider, getRPCProviderOwner } from "@zerodev/sdk"
 import { useEffect, useMemo, useState } from "react"
 import { useZeroDev } from "./ZeroDevContext"
 
