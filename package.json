@@ -1,6 +1,6 @@
 {
   "name": "@zerodev/privy",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "files": ["dist"],
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -26,7 +26,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@zerodev/sdk": "4.0.15"
+    "@zerodev/sdk": "4.0.20"
   },
   "devDependencies": {
     "@privy-io/react-auth": "^1.30.2",

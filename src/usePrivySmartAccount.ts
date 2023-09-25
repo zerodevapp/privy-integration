@@ -26,7 +26,6 @@ export const usePrivySmartAccount = () => {
           }
         }).then(async (provider) => {
           setProvider(provider);
-          //@ts-expect-error
           setAddress(await provider.getAddress());
         })
       }
