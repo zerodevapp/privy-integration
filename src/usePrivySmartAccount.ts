@@ -9,12 +9,28 @@ export const usePrivySmartAccount = () => {
     const { projectId } = useZeroDev()
     const privy = usePrivy()
     const { wallets } = useWallets();
+    const [chainId, setChainId] = useState<string>();
+    const hasEmbeddedWallet = !!privy.user?.linkedAccounts.find((account) => (account.type === 'wallet' && account.walletClientType === 'privy'));
     const embeddedWallet = useMemo(() => wallets.find((wallet) => (wallet.walletClientType === 'privy')), [wallets]);
 
     useEffect(() => {
+      if (!privy.ready) return;
+
+      if (!privy.authenticated) {
+        setProvider(undefined);
+        setAddress(undefined);
+      }
+
       const initializeZeroDev = async () => {
-        if (!wallets.length) throw new Error('Cannot initialize smart contract wallet without an EOA connected.');
-        // Use embedded wallet if the user has one, otherwise external wallet
+        // If the user has no wallets, do nothing
+        if (!wallets.length) return;
+
+        // If the user has an embedded wallet (per user.linkedAccounts) but the wallet has not
+        // loaded yet in the useWallets array, do nothing
+        if (hasEmbeddedWallet && !embeddedWallet) return;
+
+        // Otherwise, initialize a smart wallet from the user's EOA. If the user has an embedded wallet,
+        // that will be prioritized first
         const provider = await (embeddedWallet || wallets[0]).getEthereumProvider();
         ECDSAProvider.init({
           projectId,
@@ -27,10 +43,12 @@ export const usePrivySmartAccount = () => {
         }).then(async (provider) => {
           setProvider(provider);
           setAddress(await provider.getAddress());
+          const chainIdAsNumber = Number(await provider.request({method: 'eth_chainId'}));
+          setChainId(`eip155:${chainIdAsNumber}`);
         })
       }
       if (!provider && wallets.length) initializeZeroDev();
-    }, [provider, privy, projectId])
+    }, [privy.ready, privy.authenticated, wallets.length, projectId, provider])
 
     return useMemo(() => {
       const zeroDevReady = !!provider && !!address
@@ -38,7 +56,7 @@ export const usePrivySmartAccount = () => {
         ...privy,
         user: {
           ...privy.user,
-          wallet: privy.user?.wallet ? { ...privy.user.wallet, address } : undefined
+          wallet: privy.user?.wallet ? { ...privy.user.wallet, address, chainId } : undefined
         },
         zeroDevReady,
         sendTransaction: (...args: Parameters<typeof privy.sendTransaction>) => {
