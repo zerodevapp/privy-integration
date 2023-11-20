@@ -1,7 +1,12 @@
-import React, { useRef, useState, useMemo, useEffect, useContext } from "react";
+import React, { useMemo, useContext } from "react";
+import { PaymasterAndBundlerProviders, SupportedGasToken } from '@zerodev/sdk'
 
 type ZeroDevState = {
-    projectId: string
+  projectId: string,
+  bundlerProvider?: PaymasterAndBundlerProviders,
+  paymasterProvider?: PaymasterAndBundlerProviders,
+  onlySendSponsoredTransaction?: boolean,
+  gasToken?: SupportedGasToken,
 };
 
 const ZeroDevContext = React.createContext<ZeroDevState | undefined>(undefined);
@@ -16,12 +21,23 @@ export const useZeroDev = () => {
   return context;
 };
 
-export const ZeroDevProvider = ({ children, projectId }: { children: React.ReactNode, projectId: string }) => {
-    const value = useMemo(() => {
-        return {
-            projectId
-        };
-    }, [projectId]);
+export const ZeroDevProvider = ({
+  children,
+  projectId,
+  bundlerProvider,
+  paymasterProvider,
+  onlySendSponsoredTransaction,
+  gasToken,
+}: ({ children: React.ReactNode } & ZeroDevState)) => {
+  const value = useMemo(() => {
+    return {
+      projectId,
+      bundlerProvider,
+      paymasterProvider,
+      onlySendSponsoredTransaction,
+      gasToken,
+    };
+  }, [projectId, bundlerProvider, paymasterProvider, onlySendSponsoredTransaction, gasToken]);
 
   return (
     <ZeroDevContext.Provider value={value}>{children}</ZeroDevContext.Provider>

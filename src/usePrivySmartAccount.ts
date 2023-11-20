@@ -6,7 +6,13 @@ import { useZeroDev } from "./ZeroDevContext"
 export const usePrivySmartAccount = () => {
     const [provider, setProvider] = useState<ECDSAProvider>()
     const [address, setAddress] = useState<string>()
-    const { projectId } = useZeroDev()
+    const {
+      projectId,
+      bundlerProvider,
+      paymasterProvider,
+      onlySendSponsoredTransaction,
+      gasToken,
+    } = useZeroDev()
     const privy = usePrivy()
     const { wallets } = useWallets();
     const [chainId, setChainId] = useState<string>();
@@ -33,11 +39,15 @@ export const usePrivySmartAccount = () => {
         // that will be prioritized first
         const provider = await (embeddedWallet || wallets[0]).getEthereumProvider();
         ECDSAProvider.init({
+          bundlerProvider: bundlerProvider,
           projectId,
           owner: getRPCProviderOwner(provider),
           opts: {
             paymasterConfig: {
-              policy: 'VERIFYING_PAYMASTER'
+              paymasterProvider: paymasterProvider,
+              onlySendSponsoredTransaction: onlySendSponsoredTransaction,
+              policy: gasToken ? 'TOKEN_PAYMASTER' :  "VERIFYING_PAYMASTER",
+              gasToken: gasToken
             }
           }
         }).then(async (provider) => {
