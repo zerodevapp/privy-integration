@@ -1505,17 +1505,16 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@zerodev/sdk@4.3.3":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-4.3.3.tgz#93b77351bd33c3bb15d34d95e08a92598383ba7c"
-  integrity sha512-vSb34URm4GYZbFfJRmR8UvILwbwXFGD7pkmePW8G7M1BGEOJ89WTm15kgm4Qz13KmLLxB+eKP+67rtcBmgdJ/g==
+"@zerodev/sdk@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-4.3.4.tgz#56f27929cff6dc2c47751c70ff53c1f846a27690"
+  integrity sha512-Rz49GzMR1A80AmUBPAz2UQxSWRHMHRerzbxlqXn3L3g5Dtcj2g0lnc0re7cptJmzdXcfgIjzY70LQz4neB3EHQ==
   dependencies:
     "@alchemy/aa-core" "0.1.0-alpha.23"
     "@alchemy/aa-ethers" "0.1.0-alpha.23"
     "@openzeppelin/merkle-tree" "^1.0.5"
     axios "^1.4.0"
     merkletreejs "^0.3.10"
-    radash "^11.0.0"
     viem "^1.5.3"
 
 JSONStream@^1.3.5:
@@ -3614,11 +3613,6 @@ quick-format-unescaped@^4.0.3:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/quick-format-unescaped/-/quick-format-unescaped-4.0.4.tgz#93ef6dd8d3453cbc7970dd614fad4c5954d6b5a7"
   integrity sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==
-
-radash@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/radash/-/radash-11.0.0.tgz#925698e94b554336fc159c253ac33a9a49881835"
-  integrity sha512-CRWxTFTDff0IELGJ/zz58yY4BDgyI14qSM5OLNKbCItJrff7m7dXbVF0kWYVCXQtPb3SXIVhXvAImH6eT7VLSg==
 
 randombytes@^2.1.0:
   version "2.1.0"
