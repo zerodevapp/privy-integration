@@ -12,6 +12,7 @@ export const usePrivySmartAccount = () => {
       paymasterProvider,
       onlySendSponsoredTransaction,
       gasToken,
+      rpcUrl
     } = useZeroDev()
     const privy = usePrivy()
     const { wallets } = useWallets();
@@ -43,11 +44,14 @@ export const usePrivySmartAccount = () => {
           projectId,
           owner: getRPCProviderOwner(provider),
           opts: {
+            providerConfig: {
+              rpcUrl: rpcUrl,
+            },
             paymasterConfig: {
               paymasterProvider: paymasterProvider,
               onlySendSponsoredTransaction: onlySendSponsoredTransaction,
               policy: gasToken ? 'TOKEN_PAYMASTER' :  "VERIFYING_PAYMASTER",
-              gasToken: gasToken
+              gasToken: gasToken,
             }
           }
         }).then(async (provider) => {

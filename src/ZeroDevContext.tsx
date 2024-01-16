@@ -7,6 +7,7 @@ type ZeroDevState = {
   paymasterProvider?: PaymasterAndBundlerProviders,
   onlySendSponsoredTransaction?: boolean,
   gasToken?: SupportedGasToken,
+  rpcUrl?: string,
 };
 
 const ZeroDevContext = React.createContext<ZeroDevState | undefined>(undefined);
@@ -28,6 +29,7 @@ export const ZeroDevProvider = ({
   paymasterProvider,
   onlySendSponsoredTransaction,
   gasToken,
+  rpcUrl
 }: ({ children: React.ReactNode } & ZeroDevState)) => {
   const value = useMemo(() => {
     return {
@@ -36,8 +38,9 @@ export const ZeroDevProvider = ({
       paymasterProvider,
       onlySendSponsoredTransaction,
       gasToken,
+      rpcUrl
     };
-  }, [projectId, bundlerProvider, paymasterProvider, onlySendSponsoredTransaction, gasToken]);
+  }, [projectId, bundlerProvider, paymasterProvider, onlySendSponsoredTransaction, gasToken, rpcUrl]);
 
   return (
     <ZeroDevContext.Provider value={value}>{children}</ZeroDevContext.Provider>
