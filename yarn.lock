@@ -1505,10 +1505,10 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@zerodev/sdk@4.6.0":
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-4.6.0.tgz#2bf03e8d9722c1eb6b0e7ec3fd5a0b45fa1f7ffa"
-  integrity sha512-xgkJhkByYonFMQcGLlSDfjf8gqYx05e/I2LuBI6Gnpa9ZO0VCEHwq+quQcDcniQY6CdoKebhzPONQBPrWjxeLw==
+"@zerodev/sdk@4.6.1":
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-4.6.1.tgz#6168a7485abba116278b4add41e969d15021190d"
+  integrity sha512-CIE0pUN1O/NZacEofiZfWOQQoUCjE/3hzpx5jmfONE3hj/cicZJ+4pDr5Lpuj3FicKJArS3XeOUhQMdlcCjqbg==
   dependencies:
     "@alchemy/aa-core" "0.1.0-alpha.23"
     "@alchemy/aa-ethers" "0.1.0-alpha.23"
